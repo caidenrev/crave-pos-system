@@ -114,7 +114,7 @@ export function SideNav({
         { to: "/laporan", hash: "", label: "Ringkasan Laporan", icon: FileSpreadsheet },
         { to: "/penjualan-harian", hash: "", label: "Penjualan Harian", icon: Receipt },
         { to: "/kartu-stok", hash: "", label: "Kartu Stok", icon: Package },
-        { to: "/piutang", hash: "", label: "Piutang", icon: CalendarClock },
+        { to: "/spreadsheet", hash: "", label: "Spreadsheet", icon: CalendarClock },
       ],
     },
     { to: "/utang", label: "Utang", icon: HandCoins, badge: utangCount > 0 ? utangCount : undefined },
