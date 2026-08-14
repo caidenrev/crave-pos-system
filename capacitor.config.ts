@@ -7,7 +7,7 @@ const config: CapacitorConfig = {
   // Uncomment and change the URL below to your deployed web app URL 
   // if you want the Android app to act as a wrapper around your live site.
   server: {
-    url: 'https://cravepos-blue.vercel.app/',
+    url: 'https://crave-pos-system.vercel.app/',
     cleartext: true
   }
 };
