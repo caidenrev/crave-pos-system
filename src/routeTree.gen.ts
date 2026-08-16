@@ -23,6 +23,8 @@ import { Route as PinRouteImport } from './routes/pin'
 import { Route as PiutangRouteImport } from './routes/piutang'
 import { Route as StokRouteImport } from './routes/stok'
 import { Route as UtangRouteImport } from './routes/utang'
+import { Route as WelcomeRouteRouteImport } from './routes/welcome/route'
+import { Route as WelcomeIndexRouteImport } from './routes/welcome/index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -94,9 +96,20 @@ const UtangRoute = UtangRouteImport.update({
   path: '/utang',
   getParentRoute: () => rootRouteImport,
 } as any)
+const WelcomeRouteRoute = WelcomeRouteRouteImport.update({
+  id: '/welcome',
+  path: '/welcome',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WelcomeIndexRoute = WelcomeIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => WelcomeRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/welcome': typeof WelcomeRouteRouteWithChildren
   '/bantuan': typeof BantuanRoute
   '/dashboard': typeof DashboardRoute
   '/info': typeof InfoRoute
@@ -110,6 +123,7 @@ export interface FileRoutesByFullPath {
   '/piutang': typeof PiutangRoute
   '/stok': typeof StokRoute
   '/utang': typeof UtangRoute
+  '/welcome/': typeof WelcomeIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -126,10 +140,12 @@ export interface FileRoutesByTo {
   '/piutang': typeof PiutangRoute
   '/stok': typeof StokRoute
   '/utang': typeof UtangRoute
+  '/welcome': typeof WelcomeIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/welcome': typeof WelcomeRouteRouteWithChildren
   '/bantuan': typeof BantuanRoute
   '/dashboard': typeof DashboardRoute
   '/info': typeof InfoRoute
@@ -143,11 +159,13 @@ export interface FileRoutesById {
   '/piutang': typeof PiutangRoute
   '/stok': typeof StokRoute
   '/utang': typeof UtangRoute
+  '/welcome/': typeof WelcomeIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/welcome'
     | '/bantuan'
     | '/dashboard'
     | '/info'
@@ -161,6 +179,7 @@ export interface FileRouteTypes {
     | '/piutang'
     | '/stok'
     | '/utang'
+    | '/welcome/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -177,9 +196,11 @@ export interface FileRouteTypes {
     | '/piutang'
     | '/stok'
     | '/utang'
+    | '/welcome'
   id:
     | '__root__'
     | '/'
+    | '/welcome'
     | '/bantuan'
     | '/dashboard'
     | '/info'
@@ -193,10 +214,12 @@ export interface FileRouteTypes {
     | '/piutang'
     | '/stok'
     | '/utang'
+    | '/welcome/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  WelcomeRouteRoute: typeof WelcomeRouteRouteWithChildren
   BantuanRoute: typeof BantuanRoute
   DashboardRoute: typeof DashboardRoute
   InfoRoute: typeof InfoRoute
@@ -312,11 +335,38 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UtangRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/welcome': {
+      id: '/welcome'
+      path: '/welcome'
+      fullPath: '/welcome'
+      preLoaderRoute: typeof WelcomeRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/welcome/': {
+      id: '/welcome/'
+      path: '/'
+      fullPath: '/welcome/'
+      preLoaderRoute: typeof WelcomeIndexRouteImport
+      parentRoute: typeof WelcomeRouteRoute
+    }
   }
 }
 
+interface WelcomeRouteRouteChildren {
+  WelcomeIndexRoute: typeof WelcomeIndexRoute
+}
+
+const WelcomeRouteRouteChildren: WelcomeRouteRouteChildren = {
+  WelcomeIndexRoute: WelcomeIndexRoute,
+}
+
+const WelcomeRouteRouteWithChildren = WelcomeRouteRoute._addFileChildren(
+  WelcomeRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  WelcomeRouteRoute: WelcomeRouteRouteWithChildren,
   BantuanRoute: BantuanRoute,
   DashboardRoute: DashboardRoute,
   InfoRoute: InfoRoute,
