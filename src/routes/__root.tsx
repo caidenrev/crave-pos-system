@@ -13,7 +13,6 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Toaster } from "@/components/ui/sonner";
 
-
 function NotFoundComponent() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
@@ -88,7 +87,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:title", content: "Crave — POS Digital untuk UMKM" },
       {
         property: "og:description",
-        content: "Transformasi pencatatan manual ke digital dengan kasir, stok, dan laporan real-time.",
+        content:
+          "Transformasi pencatatan manual ke digital dengan kasir, stok, dan laporan real-time.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -104,8 +104,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap",
       },
-      { rel: "icon", href: "/light-mode-logo.png", type: "image/png", media: "(prefers-color-scheme: light)" },
-      { rel: "icon", href: "/dark-mode-logo.png", type: "image/png", media: "(prefers-color-scheme: dark)" },
+      {
+        rel: "icon",
+        href: "/light-mode-logo.png",
+        type: "image/png",
+        media: "(prefers-color-scheme: light)",
+      },
+      {
+        rel: "icon",
+        href: "/dark-mode-logo.png",
+        type: "image/png",
+        media: "(prefers-color-scheme: dark)",
+      },
     ],
   }),
 
@@ -143,4 +153,3 @@ function RootComponent() {
     </QueryClientProvider>
   );
 }
-

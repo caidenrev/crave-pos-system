@@ -1,6 +1,18 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { Minus, Plus, ScanLine, Search, Trash2, Wallet, QrCode, CreditCard, HandCoins, ShoppingCart, ArrowRight } from "lucide-react";
+import {
+  Minus,
+  Plus,
+  ScanLine,
+  Search,
+  Trash2,
+  Wallet,
+  QrCode,
+  CreditCard,
+  HandCoins,
+  ShoppingCart,
+  ArrowRight,
+} from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { toast } from "sonner";
 import { AppShell } from "@/components/AppShell";
@@ -9,7 +21,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
-import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetDescription, SheetHeader } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+  SheetTitle,
+  SheetDescription,
+  SheetHeader,
+} from "@/components/ui/sheet";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -39,7 +58,8 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: "Crave — Kasir POS Digital untuk UMKM" },
       {
         property: "og:description",
-        content: "Ganti pencatatan manual dengan kasir digital: barcode, stok otomatis, dan laporan real-time.",
+        content:
+          "Ganti pencatatan manual dengan kasir digital: barcode, stok otomatis, dan laporan real-time.",
       },
     ],
   }),
@@ -58,12 +78,12 @@ function KasirPage() {
   const { data: products = [], isLoading: isLoadingProducts, error: productsError } = useProducts();
   const { checkoutMutation } = useTransactions();
   const { user } = useAuth();
-  const userName = user?.user_metadata?.['name'] || user?.email?.split('@')[0] || 'User';
-  
+  const userName = user?.user_metadata?.["name"] || user?.email?.split("@")[0] || "User";
+
   if (productsError) {
     console.error("Error fetching products:", productsError);
   }
-  
+
   const [cat, setCat] = useState<string>("Semua");
   const [q, setQ] = useState("");
   const [cart, setCart] = useState<CartLine[]>([]);
@@ -88,9 +108,7 @@ function KasirPage() {
   };
   const step = (id: string, d: number) =>
     setCart((c) =>
-      c
-        .map((l) => (l.product.id === id ? { ...l, qty: l.qty + d } : l))
-        .filter((l) => l.qty > 0),
+      c.map((l) => (l.product.id === id ? { ...l, qty: l.qty + d } : l)).filter((l) => l.qty > 0),
     );
 
   const subtotal = cart.reduce((s, l) => s + l.product.price * l.qty, 0);
@@ -103,152 +121,159 @@ function KasirPage() {
     <div className="flex flex-1 min-h-0 flex-col">
       <div className="shrink-0">
         <div className="flex items-center justify-between">
-        <div>
-          <p className="text-sm font-extrabold">Keranjang</p>
-          <p className="text-[11px] text-muted-foreground">Struk #27363</p>
-        </div>
-        {cart.length > 0 ? (
-          <AlertDialog>
-            <AlertDialogTrigger asChild>
-              <Button variant="ghost" size="sm" className="rounded-xl text-destructive">
-                <Trash2 className="size-4" /> Kosongkan
-              </Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent className="rounded-2xl max-w-sm">
-              <AlertDialogHeader>
-                <AlertDialogTitle>Kosongkan Keranjang?</AlertDialogTitle>
-                <AlertDialogDescription>
-                  Apakah Anda yakin ingin membatalkan transaksi ini? Semua produk di keranjang akan dihapus.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel className="rounded-xl">Batal</AlertDialogCancel>
-                <AlertDialogAction
-                  className="rounded-xl bg-destructive text-destructive-foreground hover:bg-destructive/90"
-                  onClick={() => setCart([])}
-                >
-                  Ya, Kosongkan
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
-        ) : null}
+          <div>
+            <p className="text-sm font-extrabold">Keranjang</p>
+            <p className="text-[11px] text-muted-foreground">Struk #27363</p>
+          </div>
+          {cart.length > 0 ? (
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button variant="ghost" size="sm" className="rounded-xl text-destructive">
+                  <Trash2 className="size-4" /> Kosongkan
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent className="rounded-2xl max-w-sm">
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Kosongkan Keranjang?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Apakah Anda yakin ingin membatalkan transaksi ini? Semua produk di keranjang
+                    akan dihapus.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel className="rounded-xl">Batal</AlertDialogCancel>
+                  <AlertDialogAction
+                    className="rounded-xl bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                    onClick={() => setCart([])}
+                  >
+                    Ya, Kosongkan
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          ) : null}
         </div>
         <Separator className="my-3" />
       </div>
 
       <div className="flex-1 min-h-0 overflow-y-auto pr-1 -mr-1 max-h-[200px] xl:max-h-none">
         {cart.length === 0 ? (
-        <p className="py-10 text-center text-sm text-muted-foreground">
-          Pilih produk atau pindai barcode untuk mulai transaksi.
-        </p>
-      ) : (
-        <div className="space-y-2">
-          {cart.map((l) => (
-            <div key={l.product.id} className="flex items-center gap-3 rounded-xl bg-muted/60 p-2.5">
-              <div className="min-w-0 flex-1">
-                <p className="truncate text-sm font-bold">{l.product.name}</p>
-                <p className="text-[11px] text-muted-foreground">
-                  {rupiah(l.product.price)} × {l.qty}
-                </p>
+          <p className="py-10 text-center text-sm text-muted-foreground">
+            Pilih produk atau pindai barcode untuk mulai transaksi.
+          </p>
+        ) : (
+          <div className="space-y-2">
+            {cart.map((l) => (
+              <div
+                key={l.product.id}
+                className="flex items-center gap-3 rounded-xl bg-muted/60 p-2.5"
+              >
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-sm font-bold">{l.product.name}</p>
+                  <p className="text-[11px] text-muted-foreground">
+                    {rupiah(l.product.price)} × {l.qty}
+                  </p>
+                </div>
+                <div className="flex shrink-0 items-center gap-1">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className="size-7 rounded-lg"
+                    onClick={() => step(l.product.id, -1)}
+                  >
+                    <Minus className="size-3.5" />
+                  </Button>
+                  <span className="w-6 text-center text-sm font-bold">{l.qty}</span>
+                  <Button
+                    size="icon"
+                    className="size-7 rounded-lg"
+                    onClick={() => step(l.product.id, 1)}
+                  >
+                    <Plus className="size-3.5" />
+                  </Button>
+                </div>
               </div>
-              <div className="flex shrink-0 items-center gap-1">
-                <Button
-                  variant="outline"
-                  size="icon"
-                  className="size-7 rounded-lg"
-                  onClick={() => step(l.product.id, -1)}
-                >
-                  <Minus className="size-3.5" />
-                </Button>
-                <span className="w-6 text-center text-sm font-bold">{l.qty}</span>
-                <Button size="icon" className="size-7 rounded-lg" onClick={() => step(l.product.id, 1)}>
-                  <Plus className="size-3.5" />
-                </Button>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="shrink-0 mt-auto">
         <Separator className="my-3" />
         <div className="space-y-1.5 text-sm">
-        <div className="flex justify-between text-muted-foreground">
-          <span>Subtotal</span>
-          <span className="font-semibold text-foreground">{rupiah(subtotal)}</span>
+          <div className="flex justify-between text-muted-foreground">
+            <span>Subtotal</span>
+            <span className="font-semibold text-foreground">{rupiah(subtotal)}</span>
+          </div>
+          <div className="flex justify-between text-muted-foreground">
+            <span>Pajak 11%</span>
+            <span className="font-semibold text-foreground">{rupiah(tax)}</span>
+          </div>
+          <div className="flex items-center justify-between pt-1 text-base">
+            <span className="font-bold">Total</span>
+            <span className="font-extrabold text-primary">{rupiah(total)}</span>
+          </div>
         </div>
-        <div className="flex justify-between text-muted-foreground">
-          <span>Pajak 11%</span>
-          <span className="font-semibold text-foreground">{rupiah(tax)}</span>
-        </div>
-        <div className="flex items-center justify-between pt-1 text-base">
-          <span className="font-bold">Total</span>
-          <span className="font-extrabold text-primary">{rupiah(total)}</span>
-        </div>
-      </div>
 
-      <p className="mt-4 text-[11px] font-bold uppercase tracking-wide text-muted-foreground">
-        Metode pembayaran
-      </p>
-      <div className="mt-2 grid grid-cols-4 gap-2">
-        {payments.map((p) => (
-          <button
-            key={p.key}
-            onClick={() => setMethod(p.key)}
-            className={
-              "flex flex-col items-center gap-1 rounded-xl border p-2 text-[10px] font-bold transition-colors " +
-              (method === p.key
-                ? "border-primary bg-primary text-primary-foreground shadow-soft"
-                : "bg-card text-muted-foreground hover:bg-accent")
-            }
-          >
-            <p.icon className="size-4" />
-            {p.key}
-          </button>
-        ))}
-      </div>
-
-      <AlertDialog>
-        <AlertDialogTrigger asChild>
-          <Button
-            className="mt-4 h-12 w-full rounded-2xl text-base"
-            disabled={cart.length === 0}
-          >
-            Bayar {cart.length > 0 ? rupiah(total) : ""}
-          </Button>
-        </AlertDialogTrigger>
-        <AlertDialogContent className="rounded-2xl max-w-sm">
-          <AlertDialogHeader>
-            <AlertDialogTitle>Konfirmasi Pembayaran</AlertDialogTitle>
-            <AlertDialogDescription>
-              Selesaikan pembayaran sebesar <strong className="text-foreground">{rupiah(total)}</strong> dengan metode <strong>{method}</strong>?
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel className="rounded-xl">Batal</AlertDialogCancel>
-            <AlertDialogAction
-              className="rounded-xl"
-              disabled={checkoutMutation.isPending}
-              onClick={(e) => {
-                e.preventDefault();
-                checkoutMutation.mutate(
-                  { cart, method, cashierName: userName },
-                  {
-                    onSuccess: () => {
-                      setCart([]);
-                      setMobileCartOpen(false);
-                    }
-                  }
-                );
-              }}
+        <p className="mt-4 text-[11px] font-bold uppercase tracking-wide text-muted-foreground">
+          Metode pembayaran
+        </p>
+        <div className="mt-2 grid grid-cols-4 gap-2">
+          {payments.map((p) => (
+            <button
+              key={p.key}
+              onClick={() => setMethod(p.key)}
+              className={
+                "flex flex-col items-center gap-1 rounded-xl border p-2 text-[10px] font-bold transition-colors " +
+                (method === p.key
+                  ? "border-primary bg-primary text-primary-foreground shadow-soft"
+                  : "bg-card text-muted-foreground hover:bg-accent")
+              }
             >
-              {checkoutMutation.isPending ? "Memproses..." : "Konfirmasi"}
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+              <p.icon className="size-4" />
+              {p.key}
+            </button>
+          ))}
+        </div>
+
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <Button className="mt-4 h-12 w-full rounded-2xl text-base" disabled={cart.length === 0}>
+              Bayar {cart.length > 0 ? rupiah(total) : ""}
+            </Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent className="rounded-2xl max-w-sm">
+            <AlertDialogHeader>
+              <AlertDialogTitle>Konfirmasi Pembayaran</AlertDialogTitle>
+              <AlertDialogDescription>
+                Selesaikan pembayaran sebesar{" "}
+                <strong className="text-foreground">{rupiah(total)}</strong> dengan metode{" "}
+                <strong>{method}</strong>?
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel className="rounded-xl">Batal</AlertDialogCancel>
+              <AlertDialogAction
+                className="rounded-xl"
+                disabled={checkoutMutation.isPending}
+                onClick={(e) => {
+                  e.preventDefault();
+                  checkoutMutation.mutate(
+                    { cart, method, cashierName: userName },
+                    {
+                      onSuccess: () => {
+                        setCart([]);
+                        setMobileCartOpen(false);
+                      },
+                    },
+                  );
+                }}
+              >
+                {checkoutMutation.isPending ? "Memproses..." : "Konfirmasi"}
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
     </div>
   );
@@ -260,7 +285,11 @@ function KasirPage() {
       actions={
         <Button
           className="rounded-xl"
-          onClick={() => toast.success("Pemindai barcode siap", { description: "Arahkan kamera ke barcode produk." })}
+          onClick={() =>
+            toast.success("Pemindai barcode siap", {
+              description: "Arahkan kamera ke barcode produk.",
+            })
+          }
         >
           <ScanLine className="size-4" /> <span className="hidden sm:inline">Scan barcode</span>
         </Button>
@@ -326,7 +355,9 @@ function KasirPage() {
                         {p.stock} pcs
                       </span>
                     </div>
-                    <p className="line-clamp-2 min-h-10 text-sm font-bold leading-tight">{p.name}</p>
+                    <p className="line-clamp-2 min-h-10 text-sm font-bold leading-tight">
+                      {p.name}
+                    </p>
                     <div className="flex items-center justify-between">
                       <span className="text-sm font-extrabold text-primary">{rupiah(p.price)}</span>
                       <div className="grid size-7 place-items-center rounded-full bg-primary text-primary-foreground shadow-sm transition-transform group-hover:scale-110">
@@ -351,7 +382,9 @@ function KasirPage() {
                     <ShoppingCart className="size-5" />
                   </div>
                   <div className="flex flex-col items-start text-left leading-tight">
-                    <span className="text-[11px] font-medium text-primary-foreground/90">{cart.length} Item</span>
+                    <span className="text-[11px] font-medium text-primary-foreground/90">
+                      {cart.length} Item
+                    </span>
                     <span className="text-[15px] font-bold">{rupiah(total)}</span>
                   </div>
                 </div>

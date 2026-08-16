@@ -10,16 +10,15 @@ export function AuthWrapper({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (!loading) {
+      const publicRoutes = ["/login", "/welcome"];
+      const isPublicRoute = publicRoutes.includes(pathname);
       const isAuthRoute = pathname === "/login" || pathname === "/pin";
-      
-      if (!session && pathname !== "/login") {
-        // Not logged in -> force login
-        navigate({ to: "/login" });
+
+      if (!session && !isPublicRoute) {
+        navigate({ to: "/welcome" });
       } else if (session && !isUnlocked && pathname !== "/pin") {
-        // Logged in but not unlocked -> force PIN
         navigate({ to: "/pin" });
       } else if (session && isUnlocked && isAuthRoute) {
-        // Fully authenticated and on an auth route -> go home
         navigate({ to: "/" });
       }
     }
@@ -33,8 +32,10 @@ export function AuthWrapper({ children }: { children: React.ReactNode }) {
     );
   }
 
-  // Prevent rendering children if we're supposed to be redirecting
-  if (!session && pathname !== "/login") return null;
+  const publicRoutes = ["/login", "/welcome"];
+  const isPublicRoute = publicRoutes.includes(pathname);
+
+  if (!session && !isPublicRoute) return null;
   if (session && !isUnlocked && pathname !== "/pin") return null;
 
   return <>{children}</>;
