@@ -19,12 +19,16 @@ export function FloatingNavbar() {
       link: "/",
     },
     {
-      name: "Projects",
-      link: "/projects",
-    },
-    {
       name: "About",
       link: "/about",
+    },
+    {
+      name: "Features",
+      link: "/features",
+    },
+    {
+      name: "Pricing",
+      link: "/pricing",
     },
   ];
 
@@ -37,7 +41,7 @@ export function FloatingNavbar() {
         <NavBody>
           <NavbarLogo />
           <NavItems items={navItems} />
-          <NavbarButton>Login</NavbarButton>
+          <NavbarButton href="/login">Login</NavbarButton>
         </NavBody>
 
         {/* Mobile Navigation */}
@@ -61,7 +65,7 @@ export function FloatingNavbar() {
                 <span className="block">{item.name}</span>
               </a>
             ))}
-            <NavbarButton>Login</NavbarButton>
+            <NavbarButton href="/login">Login</NavbarButton>
           </MobileNavMenu>
         </MobileNav>
       </Navbar>

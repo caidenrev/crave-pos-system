@@ -7,17 +7,17 @@ import { Button } from "@/components/ui/button";
 import { Save } from "lucide-react";
 import { toast } from "sonner";
 
-export const Route = createFileRoute("/piutang")({
+export const Route = createFileRoute("/spreadsheet")({
   head: () => ({
     meta: [
-      { title: "Spreadsheet Piutang — Crave" },
-      { name: "description", content: "Spreadsheet laporan piutang" }
+      { title: "Spreadsheet Data — Crave" },
+      { name: "description", content: "Spreadsheet Excel untuk laporan bebas" }
     ],
   }),
-  component: PiutangPage,
+  component: SpreadsheetPage,
 });
 
-function PiutangPage() {
+function SpreadsheetPage() {
   const [data, setData] = useState<any[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -47,12 +47,12 @@ function PiutangPage() {
   const initEmpty = () => {
     setData([
       {
-        name: "Laporan Piutang",
+        name: "Laporan Bebas",
         status: 1,
         row: 100,
         column: 26,
         celldata: [
-          { r: 0, c: 0, v: { v: "Nama Pelanggan", m: "Nama Pelanggan", bl: 1 } },
+          { r: 0, c: 0, v: { v: "Nama Klien", m: "Nama Klien", bl: 1 } },
           { r: 0, c: 1, v: { v: "Tagihan", m: "Tagihan", bl: 1 } },
           { r: 0, c: 2, v: { v: "Tanggal", m: "Tanggal", bl: 1 } },
         ]
@@ -66,7 +66,7 @@ function PiutangPage() {
 
   return (
     <AppShell
-      title="Spreadsheet Piutang"
+      title="Spreadsheet Data"
       subtitle="Bebas mengedit dan menggunakan rumus seperti di Excel"
       actions={
         <Button className="rounded-xl" onClick={handleSave}>
@@ -89,4 +89,3 @@ function PiutangPage() {
     </AppShell>
   );
 }
-

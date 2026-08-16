@@ -21,6 +21,7 @@ import { Route as PengaturanRouteImport } from './routes/pengaturan'
 import { Route as PenjualanHarianRouteImport } from './routes/penjualan-harian'
 import { Route as PinRouteImport } from './routes/pin'
 import { Route as PiutangRouteImport } from './routes/piutang'
+import { Route as SpreadsheetRouteImport } from './routes/spreadsheet'
 import { Route as StokRouteImport } from './routes/stok'
 import { Route as UtangRouteImport } from './routes/utang'
 import { Route as WelcomeRouteRouteImport } from './routes/welcome/route'
@@ -86,6 +87,11 @@ const PiutangRoute = PiutangRouteImport.update({
   path: '/piutang',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SpreadsheetRoute = SpreadsheetRouteImport.update({
+  id: '/spreadsheet',
+  path: '/spreadsheet',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const StokRoute = StokRouteImport.update({
   id: '/stok',
   path: '/stok',
@@ -121,6 +127,7 @@ export interface FileRoutesByFullPath {
   '/penjualan-harian': typeof PenjualanHarianRoute
   '/pin': typeof PinRoute
   '/piutang': typeof PiutangRoute
+  '/spreadsheet': typeof SpreadsheetRoute
   '/stok': typeof StokRoute
   '/utang': typeof UtangRoute
   '/welcome/': typeof WelcomeIndexRoute
@@ -138,6 +145,7 @@ export interface FileRoutesByTo {
   '/penjualan-harian': typeof PenjualanHarianRoute
   '/pin': typeof PinRoute
   '/piutang': typeof PiutangRoute
+  '/spreadsheet': typeof SpreadsheetRoute
   '/stok': typeof StokRoute
   '/utang': typeof UtangRoute
   '/welcome': typeof WelcomeIndexRoute
@@ -157,6 +165,7 @@ export interface FileRoutesById {
   '/penjualan-harian': typeof PenjualanHarianRoute
   '/pin': typeof PinRoute
   '/piutang': typeof PiutangRoute
+  '/spreadsheet': typeof SpreadsheetRoute
   '/stok': typeof StokRoute
   '/utang': typeof UtangRoute
   '/welcome/': typeof WelcomeIndexRoute
@@ -177,6 +186,7 @@ export interface FileRouteTypes {
     | '/penjualan-harian'
     | '/pin'
     | '/piutang'
+    | '/spreadsheet'
     | '/stok'
     | '/utang'
     | '/welcome/'
@@ -194,6 +204,7 @@ export interface FileRouteTypes {
     | '/penjualan-harian'
     | '/pin'
     | '/piutang'
+    | '/spreadsheet'
     | '/stok'
     | '/utang'
     | '/welcome'
@@ -212,6 +223,7 @@ export interface FileRouteTypes {
     | '/penjualan-harian'
     | '/pin'
     | '/piutang'
+    | '/spreadsheet'
     | '/stok'
     | '/utang'
     | '/welcome/'
@@ -231,6 +243,7 @@ export interface RootRouteChildren {
   PenjualanHarianRoute: typeof PenjualanHarianRoute
   PinRoute: typeof PinRoute
   PiutangRoute: typeof PiutangRoute
+  SpreadsheetRoute: typeof SpreadsheetRoute
   StokRoute: typeof StokRoute
   UtangRoute: typeof UtangRoute
 }
@@ -321,6 +334,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PiutangRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/spreadsheet': {
+      id: '/spreadsheet'
+      path: '/spreadsheet'
+      fullPath: '/spreadsheet'
+      preLoaderRoute: typeof SpreadsheetRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/stok': {
       id: '/stok'
       path: '/stok'
@@ -378,6 +398,7 @@ const rootRouteChildren: RootRouteChildren = {
   PenjualanHarianRoute: PenjualanHarianRoute,
   PinRoute: PinRoute,
   PiutangRoute: PiutangRoute,
+  SpreadsheetRoute: SpreadsheetRoute,
   StokRoute: StokRoute,
   UtangRoute: UtangRoute,
 }

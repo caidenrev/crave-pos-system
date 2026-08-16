@@ -165,6 +165,47 @@
   }
 }
 
+/* Customize FortuneSheet Context Menu */
+.fortune-context-menu {
+  border-radius: var(--radius-md) !important;
+  padding: 4px 0 !important;
+  min-width: 200px !important;
+  border: 1px solid var(--color-border) !important;
+  box-shadow: var(--shadow-lg) !important;
+}
+
+.luckysheet-cols-menuitem {
+  border-radius: var(--radius-sm) !important;
+  margin: 0 4px !important;
+}
+
+.luckysheet-cols-menuitem .luckysheet-cols-menuitem-content {
+  padding: 6px 12px 6px 32px !important; /* Extra padding on left for icons */
+  font-size: 13px !important;
+  line-height: 1.5 !important;
+  position: relative !important;
+}
+
+.luckysheet-cols-menuitem:hover {
+  background-color: var(--color-muted) !important;
+  color: var(--color-foreground) !important;
+}
+
+/* Add custom icons using pseudo elements (Generic fallback) */
+.luckysheet-cols-menuitem .luckysheet-cols-menuitem-content::before {
+  content: "🔹";
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 10px;
+  opacity: 0.5;
+}
+
+.fortune-context-menu-divider {
+  margin: 4px 0 !important;
+  background-color: var(--color-border) !important;
+}
 /* IZIN WOK INI BIAR KAYAK ADA LAYAR MEKBUKNYA */
 .site-frame {
   display: block;
@@ -186,7 +227,7 @@
   left: 0;
   bottom: 0;
   width: 11px;
-  position: absolute;
+  position: fixed;
 }
 
 .site-frame--right {
@@ -194,7 +235,15 @@
   right: 0;
   bottom: 0;
   width: 11px;
-  position: absolute;
+  position: fixed;
+}
+
+.site-frame--bottom {
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 11px;
+  position: fixed;
 }
 
 .site-corner {
@@ -215,6 +264,19 @@
   top: 11px;
   right: 11px;
   transform: rotate(180deg);
+}
+
+.site-corner--bottom-left {
+  bottom: 11px;
+  left: 11px;
+  position: fixed;
+}
+
+.site-corner--bottom-right {
+  bottom: 11px;
+  right: 11px;
+  transform: rotate(270deg);
+  position: fixed;
 }
 
 @media (max-width: 850px) {

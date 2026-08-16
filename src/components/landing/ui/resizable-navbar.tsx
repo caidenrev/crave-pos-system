@@ -206,9 +206,9 @@ export const MobileNavMenu = ({ children, className, isOpen, onClose }: MobileNa
 
 export const MobileNavToggle = ({ isOpen, onClick }: { isOpen: boolean; onClick: () => void }) => {
   return isOpen ? (
-    <X className="text-black dark:text-white" onClick={onClick} />
+    <X className="text-white dark:text-white" onClick={onClick} />
   ) : (
-    <LucideMenu className="text-black dark:text-white" onClick={onClick} />
+    <LucideMenu className="text-white dark:text-white" onClick={onClick} />
   );
 };
 
@@ -216,9 +216,10 @@ export const NavbarLogo = () => {
   return (
     <Link
       to="/"
-      className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-normal text-black"
+      className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-normal text-white"
     >
-      <span className="font-medium text-black dark:text-white">Crave</span>
+      <img src="/light-mode-logo.png" alt="Logo" className="h-5 w-5" />
+      <span className="font-medium hidden md:block md:text-black dark:text-white">Crave</span>
     </Link>
   );
 };
